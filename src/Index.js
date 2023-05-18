@@ -10,6 +10,7 @@ const cors = require('cors');
 const Contactus = require("./model/Contactus");
 const session = require('express-session')
 const delivery =require('./model/Delivery');
+const Delivery = require("./model/Delivery");
 app.use(express.json());
 app.use(cors());
 mongoose.connect("mongodb+srv://ayushh:ayush@cluster0.yqrvv.mongodb.net/?retryWrites=true&w=majority",{
@@ -156,7 +157,7 @@ app.post('/contact',async(req,res)=>{
 app.post('/delivery',async(req,res)=>{
     var email=req.body.email;
     var name=req.body.name;
-    const contact = await new ContactUs({
+    const contact = await new Delivery({
         name:name,
         address:req.body.address,
         mobile:req.body.mobile,
