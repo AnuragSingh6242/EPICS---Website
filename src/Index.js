@@ -9,6 +9,7 @@ const port = process.env.PORT ||2000;
 const cors = require('cors');
 const Contactus = require("./model/Contactus");
 const session = require('express-session')
+const delivery =require('./model/Delivery');
 app.use(express.json());
 app.use(cors());
 mongoose.connect("mongodb+srv://ayushh:ayush@cluster0.yqrvv.mongodb.net/?retryWrites=true&w=majority",{
@@ -42,7 +43,7 @@ app.post("/register",async(req,res)=>{
     var transport = await nodeMailer.createTransport({
         service: 'gmail',
         auth:{
-            user:'a.aayush.2020@vitbhopal.ac.in',
+            user:'aaayush879@gmail.com',
             pass:'xyfxwqweouylprdh'
         }
     });
@@ -136,6 +137,51 @@ app.post('/contact',async(req,res)=>{
         Thanks ${name} ! 
 
         We appreciate you for using our services. We have recorded your query
+        and will get back to you very soon.
+
+        Regards
+        Team Vardaan
+        `,
+    }
+    transport.sendMail(mailOption, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log(info);
+    });
+    const insertQ = await contact.save();
+    res.send(insertQ);
+    console.log(insertQ);
+})
+app.post('/delivery',async(req,res)=>{
+    var email=req.body.email;
+    var name=req.body.name;
+    const contact = await new ContactUs({
+        name:name,
+        address:req.body.address,
+        mobile:req.body.mobile,
+        email:email,
+        date:req.body.date,
+        organization:req.body.organization,
+        items:req.body.items,
+        message:req.body.message,
+        
+    })
+    var transport = await nodeMailer.createTransport({
+        service: 'gmail',
+        auth:{
+            user:'aaayush879@gmail.com',
+            pass:'xyfxwqweouylprdh'
+        }
+    });
+    var mailOption={
+        from:'aaayush879@gmail.com',
+        to:`${email}`,
+        subject:'DELIVERY BOOKED SUCESSFULLY',
+        text:`
+        Thanks ${name} ! 
+
+        We appreciate you for using our services. We have recorded your order
         and will get back to you very soon.
 
         Regards
