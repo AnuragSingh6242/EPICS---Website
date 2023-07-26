@@ -1,0 +1,15 @@
+body {
+    background-color: lightgrey;
+}
+
+.btn-info a {
+    color: white;
+}
+
+#image1 {
+    height: 280px;
+    width: 230px;
+    border-radius: 5%;
+    margin-left: 20px;
+    margin-top: 20px;
+}
